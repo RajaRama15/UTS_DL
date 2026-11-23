@@ -1,0 +1,234 @@
+{
+  "eda": {
+    "train_size": 48000,
+    "test_size": 16000,
+    "class_counts": {
+      "normal": 23888,
+      "gores": 5623,
+      "noda": 4773,
+      "retak": 3606,
+      "gelembung": 3430,
+      "las_dingin": 4323,
+      "kontaminasi": 2357
+    },
+    "train_lini_prop": {
+      "A": 0.7492,
+      "B": 0.2507
+    },
+    "test_lini_prop": {
+      "B": 0.6004,
+      "A": 0.3996
+    },
+    "train_any_sensor_nan_pct": 8.05,
+    "train_all_sensor_nan_pct": 4.9,
+    "test_any_sensor_nan_pct": 8.11,
+    "test_all_sensor_nan_pct": 5.08
+  },
+  "sanity_check": {
+    "initial_loss": 2.1555,
+    "final_loss": 0.00802,
+    "final_acc": 1.0
+  },
+  "modality_and_fusion": {
+    "image_only": {
+      "label": "Image Only (2D Oriented CNN)",
+      "raw_macro_f1": 0.4994,
+      "tuned_macro_f1": 0.5116,
+      "per_class_f1": {
+        "normal": 0.7914,
+        "gores": 0.5413,
+        "noda": 0.8371,
+        "retak": 0.2807,
+        "gelembung": 0.3,
+        "las_dingin": 0.0,
+        "kontaminasi": 0.7455
+      },
+      "tuned_per_class_f1": {
+        "normal": 0.7797,
+        "gores": 0.5289,
+        "noda": 0.8386,
+        "retak": 0.3299,
+        "gelembung": 0.3242,
+        "las_dingin": 0.0271,
+        "kontaminasi": 0.7527
+      }
+    },
+    "sensor_only": {
+      "label": "Sensor Only (1D Multi-Scale CNN)",
+      "raw_macro_f1": 0.4325,
+      "tuned_macro_f1": 0.4504,
+      "per_class_f1": {
+        "normal": 0.7372,
+        "gores": 0.0,
+        "noda": 0.0,
+        "retak": 0.5794,
+        "gelembung": 0.7794,
+        "las_dingin": 0.9313,
+        "kontaminasi": 0.0
+      },
+      "tuned_per_class_f1": {
+        "normal": 0.6652,
+        "gores": 0.1763,
+        "noda": 0.0,
+        "retak": 0.5989,
+        "gelembung": 0.7794,
+        "las_dingin": 0.9326,
+        "kontaminasi": 0.0
+      }
+    },
+    "early_fusion": {
+      "label": "Early Fusion (Concat + MLP)",
+      "raw_macro_f1": 0.7113,
+      "tuned_macro_f1": 0.7203,
+      "per_class_f1": {
+        "normal": 0.8591,
+        "gores": 0.5513,
+        "noda": 0.8329,
+        "retak": 0.3176,
+        "gelembung": 0.7852,
+        "las_dingin": 0.9307,
+        "kontaminasi": 0.7026
+      },
+      "tuned_per_class_f1": {
+        "normal": 0.8571,
+        "gores": 0.5628,
+        "noda": 0.8362,
+        "retak": 0.3485,
+        "gelembung": 0.786,
+        "las_dingin": 0.9327,
+        "kontaminasi": 0.7189
+      }
+    },
+    "late_fusion": {
+      "label": "Late Fusion (Logit Gating)",
+      "raw_macro_f1": 0.7099,
+      "tuned_macro_f1": 0.7258,
+      "per_class_f1": {
+        "normal": 0.851,
+        "gores": 0.5571,
+        "noda": 0.8166,
+        "retak": 0.3149,
+        "gelembung": 0.7751,
+        "las_dingin": 0.9307,
+        "kontaminasi": 0.724
+      },
+      "tuned_per_class_f1": {
+        "normal": 0.8545,
+        "gores": 0.5743,
+        "noda": 0.8313,
+        "retak": 0.3548,
+        "gelembung": 0.7885,
+        "las_dingin": 0.9307,
+        "kontaminasi": 0.7467
+      }
+    },
+    "cross_attention": {
+      "label": "Cross-Modal Attention + Gated Fusion",
+      "raw_macro_f1": 0.7164,
+      "tuned_macro_f1": 0.7298,
+      "per_class_f1": {
+        "normal": 0.8573,
+        "gores": 0.5694,
+        "noda": 0.835,
+        "retak": 0.3053,
+        "gelembung": 0.7761,
+        "las_dingin": 0.9314,
+        "kontaminasi": 0.7406
+      },
+      "tuned_per_class_f1": {
+        "normal": 0.863,
+        "gores": 0.568,
+        "noda": 0.8442,
+        "retak": 0.371,
+        "gelembung": 0.7767,
+        "las_dingin": 0.9319,
+        "kontaminasi": 0.7539
+      }
+    }
+  },
+  "label_noise": {
+    "val_suspected_mislabels_count": 371,
+    "val_suspected_mislabels_pct": 3.86,
+    "loss_comparison": {
+      "ce": {
+        "raw_macro_f1": 0.7506,
+        "tuned_macro_f1": 0.754
+      },
+      "gce": {
+        "raw_macro_f1": 0.7093,
+        "tuned_macro_f1": 0.7172
+      },
+      "label_smoothing": {
+        "raw_macro_f1": 0.7164,
+        "tuned_macro_f1": 0.7298
+      }
+    }
+  },
+  "domain_shift": {
+    "global_norm": {
+      "overall_macro_f1": 0.7249,
+      "lini_A_macro_f1": 0.7681,
+      "lini_B_macro_f1": 0.5647
+    },
+    "per_line_norm": {
+      "overall_macro_f1": 0.7164,
+      "lini_A_macro_f1": 0.7581,
+      "lini_B_macro_f1": 0.5761
+    }
+  },
+  "missing_modality": {
+    "natural_all_3_sensors_present_f1": 0.7265,
+    "natural_1_channel_missing_f1": 0.6243,
+    "natural_all_sensors_missing_f1": 0.43,
+    "synthetic_100pct_sensor_blackout_f1": 0.471
+  },
+  "multi_seed": {
+    "seeds": [
+      42,
+      123,
+      999
+    ],
+    "raw_macro_f1_per_seed": [
+      0.7164,
+      0.7093,
+      0.7091
+    ],
+    "raw_macro_f1_mean": 0.7116,
+    "raw_macro_f1_std": 0.0034,
+    "tuned_macro_f1_per_seed": [
+      0.7239,
+      0.7115,
+      0.7137
+    ],
+    "tuned_macro_f1_mean": 0.7164,
+    "tuned_macro_f1_std": 0.0054,
+    "ensemble_macro_f1": 0.7346,
+    "multipliers": [
+      1.2,
+      0.95,
+      0.65,
+      1.85,
+      0.8,
+      1.0,
+      0.6
+    ],
+    "ensemble_per_class_f1": {
+      "normal": 0.8686,
+      "gores": 0.556,
+      "noda": 0.8495,
+      "retak": 0.393,
+      "gelembung": 0.7914,
+      "las_dingin": 0.9314,
+      "kontaminasi": 0.7525
+    }
+  },
+  "test_prediction_distribution": {
+    "normal": 9753,
+    "gores": 1030,
+    "noda": 1277,
+    "retak": 1223,
+    "gelembung": 919,
+    "las_dingin": 1338,
+    "kontaminasi": 460
+  }
+}
