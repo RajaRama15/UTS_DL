@@ -1,0 +1,69 @@
+{
+  "eda_distortions": {
+    "total_samples": 36000,
+    "microscope_counts": {
+      "M1": 21636,
+      "M2": 14364
+    },
+    "m1_image_mean": 127.8,
+    "m1_image_std": 23.71,
+    "m2_image_mean": 146.07,
+    "m2_image_std": 23.22,
+    "spectra_with_single_bin_spikes_pct": 21.84,
+    "spectrum_baseline_tilt_std": 0.3947
+  },
+  "self_supervised_training": {
+    "epochs": 15,
+    "latent_dim_per_modality": 12,
+    "fused_dim": 24,
+    "pretrain_losses": [
+      1.1011,
+      0.3176,
+      0.269,
+      0.2512,
+      0.2362,
+      0.2259,
+      0.2197,
+      0.2127,
+      0.2076,
+      0.2046,
+      0.2018,
+      0.2001,
+      0.1992,
+      0.198,
+      0.198
+    ]
+  },
+  "modality_ablation_k6": {
+    "ari_image_only_vs_fused": 0.8312,
+    "ari_spectrum_only_vs_fused": 0.4751,
+    "ari_image_only_vs_spectrum_only": 0.4205,
+    "microscope_confounding_ari_fused": 0.00019,
+    "contingency_spec4_vs_img4": [
+      [
+        19,
+        0,
+        7,
+        8508
+      ],
+      [
+        4257,
+        4225,
+        66,
+        0
+      ],
+      [
+        6295,
+        11,
+        3740,
+        133
+      ],
+      [
+        3700,
+        86,
+        4909,
+        44
+      ]
+    ]
+  }
+}
