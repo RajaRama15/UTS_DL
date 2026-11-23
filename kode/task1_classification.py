@@ -278,15 +278,17 @@ class DefectClassifier(nn.Module):
             self.sig_head = nn.Linear(dim, num_classes)
             self.alpha_net = nn.Sequential(nn.Linear(dim * 2 + 3, num_classes), nn.Sigmoid())
         elif mode == "cross_attention":
-            # Efficient scaled dot-product cross-attention with learnable residual scaling
+            # Efficient scaled dot-product cross-attention between 16 spatial image tokens and 16 temporal signal tokens
             self.q_proj = nn.Linear(dim, dim, bias=False)
             self.k_proj = nn.Linear(dim, dim, bias=False)
             self.v_proj = nn.Linear(dim, dim, bias=False)
-            self.ca_scale = nn.Parameter(torch.tensor(0.25))
-            self.gate = nn.Sequential(nn.Linear(dim * 2 + 3, dim * 2), nn.Sigmoid())
+            self.norm_ca = nn.LayerNorm(dim)
+            self.gate = nn.Sequential(nn.Linear(dim * 3 + 3, dim * 3), nn.Sigmoid())
             self.head = nn.Sequential(
-                nn.Linear(dim * 2, dim),
+                nn.Linear(dim * 3, dim),
+                nn.LayerNorm(dim),
                 nn.GELU(),
+                nn.Dropout(0.08),
                 nn.Linear(dim, num_classes),
             )
         else:
@@ -320,9 +322,8 @@ class DefectClassifier(nn.Module):
         k = self.k_proj(ts)
         v = self.v_proj(ts)
         attn = torch.softmax(torch.bmm(q, k.transpose(1, 2)) / (self.dim ** 0.5), dim=-1)
-        ca_pool = torch.bmm(attn, v).mean(dim=1) * has_sig
-        fi_enh = fi + self.ca_scale * ca_pool
-        cat = torch.cat([fi_enh, fs * has_sig], dim=1)
+        ca_pool = self.norm_ca(torch.bmm(attn, v).mean(dim=1)) * has_sig
+        cat = torch.cat([fi, fs * has_sig, ca_pool], dim=1)
         g = self.gate(torch.cat([cat, mask], dim=1))
         return self.head(cat * g)
 
