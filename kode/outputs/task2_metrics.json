@@ -1,0 +1,214 @@
+{
+  "eda_and_preprocessing": {
+    "train_machines": 900,
+    "train_split_machines": 720,
+    "val_split_machines": 180,
+    "test_machines": 300,
+    "operating_regimes_count": 6,
+    "operating_regimes_setel1_keys": [
+      0,
+      10,
+      20,
+      25,
+      35,
+      42
+    ],
+    "uninformative_sensors_dropped": [
+      "s01",
+      "s05",
+      "s06",
+      "s10",
+      "s16",
+      "s18",
+      "s19"
+    ],
+    "informative_sensors_kept": [
+      "s02",
+      "s03",
+      "s04",
+      "s07",
+      "s08",
+      "s09",
+      "s11",
+      "s12",
+      "s13",
+      "s14",
+      "s15",
+      "s17",
+      "s20",
+      "s21"
+    ],
+    "sensor_corr_with_rul_after_regime_norm": {
+      "s01": -0.0008,
+      "s02": 0.5706,
+      "s03": 0.5243,
+      "s04": -0.8036,
+      "s05": -0.0028,
+      "s06": 0.0025,
+      "s07": 0.5149,
+      "s08": -0.3489,
+      "s09": -0.3832,
+      "s10": 0.0006,
+      "s11": 0.1336,
+      "s12": -0.5866,
+      "s13": 0.397,
+      "s14": 0.3791,
+      "s15": -0.5528,
+      "s16": 0.0023,
+      "s17": 0.4133,
+      "s18": -0.0046,
+      "s19": 0.0025,
+      "s20": 0.385,
+      "s21": 0.3401
+    },
+    "train_missing_counts_per_sensor": {
+      "s01": 5081,
+      "s02": 5272,
+      "s03": 5116,
+      "s04": 5215,
+      "s05": 5109,
+      "s06": 5235,
+      "s07": 5219,
+      "s08": 5130,
+      "s09": 5173,
+      "s10": 5138,
+      "s11": 5037,
+      "s12": 5193,
+      "s13": 5162,
+      "s14": 5060,
+      "s15": 5138,
+      "s16": 5086,
+      "s17": 5110,
+      "s18": 5235,
+      "s19": 5156,
+      "s20": 5371,
+      "s21": 5004
+    },
+    "train_spike_counts_per_sensor_iqr4": {
+      "s01": 458,
+      "s02": 1096,
+      "s03": 186,
+      "s04": 32,
+      "s05": 497,
+      "s06": 490,
+      "s07": 157,
+      "s08": 116,
+      "s09": 1385,
+      "s10": 459,
+      "s11": 239,
+      "s12": 2108,
+      "s13": 3705,
+      "s14": 1571,
+      "s15": 451,
+      "s16": 498,
+      "s17": 6114,
+      "s18": 474,
+      "s19": 456,
+      "s20": 2257,
+      "s21": 423
+    },
+    "window_size": 50
+  },
+  "model_comparison_truncated_machines": {
+    "lightgbm_baseline": {
+      "label": "LightGBM Baseline",
+      "rmse": 21.5374,
+      "asymmetric_sum": 10822.26,
+      "asymmetric_per_machine": 30.0618
+    },
+    "dilated_tcn_seed42": {
+      "label": "Dilated TCN (Single)",
+      "rmse": 21.7145,
+      "asymmetric_sum": 10992.64,
+      "asymmetric_per_machine": 30.5351
+    },
+    "attention_gru_seed42": {
+      "label": "Attention GRU (Single)",
+      "rmse": 20.5277,
+      "asymmetric_sum": 11652.61,
+      "asymmetric_per_machine": 32.3684
+    },
+    "ensemble_mean": {
+      "label": "TCN+GRU Ensemble (Mean)",
+      "rmse": 20.3693,
+      "asymmetric_sum": 10061.78,
+      "asymmetric_per_machine": 27.9494
+    },
+    "ensemble_risk_adjusted": {
+      "label": "Risk-Adj Ensemble (μ-0.85σ)",
+      "rmse": 20.5823,
+      "asymmetric_sum": 7677.64,
+      "asymmetric_per_machine": 21.3268
+    }
+  },
+  "validation_per_rul_range_truncated_machines": {
+    "overall": {
+      "count": 360,
+      "rmse": 20.5823,
+      "asymmetric_sum": 7677.64,
+      "asymmetric_per_sample": 21.3268
+    },
+    "low_0_30_critical": {
+      "count": 63,
+      "rmse": 9.4663,
+      "asymmetric_sum": 75.17,
+      "asymmetric_per_sample": 1.1932
+    },
+    "medium_31_80": {
+      "count": 143,
+      "rmse": 22.9692,
+      "asymmetric_sum": 6153.76,
+      "asymmetric_per_sample": 43.0333
+    },
+    "high_81_150": {
+      "count": 154,
+      "rmse": 21.5347,
+      "asymmetric_sum": 1448.71,
+      "asymmetric_per_sample": 9.4072
+    }
+  },
+  "validation_per_rul_range_all_windows": {
+    "overall": {
+      "count": 10604,
+      "rmse": 18.8962,
+      "asymmetric_sum": 110167.65,
+      "asymmetric_per_sample": 10.3893
+    },
+    "low_0_30_critical": {
+      "count": 1531,
+      "rmse": 8.4752,
+      "asymmetric_sum": 1621.72,
+      "asymmetric_per_sample": 1.0593
+    },
+    "medium_31_80": {
+      "count": 2249,
+      "rmse": 19.6723,
+      "asymmetric_sum": 53439.46,
+      "asymmetric_per_sample": 23.7614
+    },
+    "high_81_150": {
+      "count": 6824,
+      "rmse": 20.278,
+      "asymmetric_sum": 55106.47,
+      "asymmetric_per_sample": 8.0754
+    }
+  },
+  "uncertainty_and_maintenance": {
+    "mc_total_stochastic_passes": 90,
+    "optimal_risk_aversion_k": 0.85,
+    "picp_90_coverage_pct": 31.67,
+    "mpiw_90_mean_width_cycles": 16.84,
+    "mean_epistemic_std_cycles": 5.12,
+    "service_policy_rule": "Schedule maintenance when 90% Lower Bound (mu - 1.645 * sigma) <= 25 cycles",
+    "critical_machines_caught_pct": 94.0,
+    "unscheduled_imminent_failure_rate_pct": 0.0
+  },
+  "test_predictions_summary": {
+    "count": 300,
+    "min_rul": 2.95,
+    "max_rul": 144.19,
+    "mean_rul": 88.28,
+    "median_rul": 99.25,
+    "machines_flagged_for_immediate_service_lcb25": 50
+  }
+}
