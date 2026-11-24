@@ -56,8 +56,12 @@ def load_rul_data(data_dir: str):
     te_path = os.path.join(data_dir, "rul_test.csv")
     if os.path.isdir(tr_path):
         tr_path = os.path.join(tr_path, "rul_train.csv")
+    elif not os.path.exists(tr_path) and os.path.exists(tr_path + ".gz"):
+        tr_path = tr_path + ".gz"
     if os.path.isdir(te_path):
         te_path = os.path.join(te_path, "rul_test.csv")
+    elif not os.path.exists(te_path) and os.path.exists(te_path + ".gz"):
+        te_path = te_path + ".gz"
 
     tr_df = pd.read_csv(tr_path)
     te_df = pd.read_csv(te_path)
@@ -453,18 +457,19 @@ def generate_task2_plots(
 ):
     # Plot 1: Task 2a Exploration (Raw vs Regime-Normalized Sensor Trajectory + RUL Correlation Bar Chart)
     fig, axes = plt.subplots(1, 3, figsize=(15, 4.2))
-    u1_raw = tr_df_raw[tr_df_raw["id_unit"] == 1]
-    u1_norm = norm_df[norm_df["id_unit"] == 1]
+    sample_uid = int(tr_df_raw["id_unit"].iloc[0])
+    u1_raw = tr_df_raw[tr_df_raw["id_unit"] == sample_uid]
+    u1_norm = norm_df[norm_df["id_unit"] == sample_uid]
 
     axes[0].plot(u1_raw["siklus"], u1_raw["s04"], color="tab:red", lw=1.0, alpha=0.85)
-    axes[0].set_title("Raw Sensor s04 (Unit 1 across 6 Operating Regimes)", fontweight="bold", fontsize=9.5)
+    axes[0].set_title(f"Raw Sensor s04 (Unit {sample_uid} across 6 Operating Regimes)", fontweight="bold", fontsize=9.5)
     axes[0].set_xlabel("Cycle (siklus)")
     axes[0].set_ylabel("Raw s04 Reading")
     axes[0].grid(True, alpha=0.3)
 
     axes[1].plot(u1_norm["siklus"], u1_norm["s04"], color="tab:blue", lw=1.3, label="Regime-Norm + Despiked s04")
     axes[1].plot(u1_norm["siklus"], u1_norm["s02"], color="tab:green", lw=1.1, alpha=0.8, label="Regime-Norm + Despiked s02")
-    axes[1].set_title("After Regime Normalization & Causal Despiking (Unit 1)", fontweight="bold", fontsize=9.5)
+    axes[1].set_title(f"After Regime Normalization & Causal Despiking (Unit {sample_uid})", fontweight="bold", fontsize=9.5)
     axes[1].set_xlabel("Cycle (siklus)")
     axes[1].set_ylabel("Normalized Z-Score")
     axes[1].legend(fontsize=8)
