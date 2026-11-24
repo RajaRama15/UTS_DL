@@ -14,9 +14,27 @@ import sys
 import time
 
 def main():
+    # Smart auto-detection of default paths
+    kode_dir = os.path.dirname(os.path.abspath(__file__))
+    repo_root = os.path.abspath(os.path.join(kode_dir, ".."))
+    parent_dir = os.path.abspath(os.path.join(repo_root, ".."))
+
+    detected_data_dir = r"E:\Code\data_uts_dl"
+    if not os.path.exists(detected_data_dir):
+        if os.path.exists(os.path.join(parent_dir, "clustering.npz")):
+            detected_data_dir = parent_dir
+        elif os.path.exists(r"D:\DL\clustering.npz"):
+            detected_data_dir = r"D:\DL"
+        else:
+            detected_data_dir = parent_dir
+
+    detected_out_dir = r"E:\Code\uts_dl_submission"
+    if not os.path.exists(detected_out_dir):
+        detected_out_dir = repo_root
+
     parser = argparse.ArgumentParser(description="Reproduce all tasks for UTS Deep Learning")
-    parser.add_argument("--data_dir", type=str, default=r"E:\Code\data_uts_dl", help="Path to data_uts_dl directory")
-    parser.add_argument("--out_dir", type=str, default=r"E:\Code\uts_dl_submission", help="Path to submission root directory")
+    parser.add_argument("--data_dir", type=str, default=detected_data_dir, help="Path to data_uts_dl directory")
+    parser.add_argument("--out_dir", type=str, default=detected_out_dir, help="Path to submission root directory")
     parser.add_argument("--eval_only", action="store_true", help="Evaluate saved checkpoints without retraining")
     parser.add_argument("--task", type=int, choices=[0, 1, 2, 3], default=0, help="Run specific task (0 = all)")
     args = parser.parse_args()
